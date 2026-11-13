@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday!</title>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#120b22;--night-ink:#bfb1e6;--lit-bg:#ffcf3f;--lit-ink:#2a1b4d;--lit-accent:#ff3d7f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--lit-bg:#ff5d73;--lit-ink:#ffffff;--lit-accent:#ffe066}}
+:root[data-theme="dark"]{color-scheme:dark;--lit-bg:#ff5d73;--lit-ink:#ffffff;--lit-accent:#ffe066}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;height:100%;background:var(--night);transition:background-color 1.1s ease;font-family:"Nunito",system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+body.lit{background:var(--lit-bg)}
+main{height:100%;display:grid;place-items:center;padding:1rem}
+.stage{grid-area:1/1;text-align:center;transition:opacity .9s ease;width:100%}
+.party{opacity:0;pointer-events:none}
+body.lit .party{opacity:1;pointer-events:auto}
+body.lit .wish{opacity:0;pointer-events:none}
+
+/* candle */
+#candle{position:relative;border:0;background:none;padding:0;cursor:pointer;width:min(46vw,170px);touch-action:manipulation}
+#candle svg{display:block;width:100%;height:auto;overflow:visible;position:relative}
+#candle:focus-visible{outline:3px solid #ffd23f;outline-offset:10px;border-radius:12px}
+.glow{position:absolute;left:50%;top:6%;width:120vmin;height:120vmin;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,170,60,.42),rgba(255,120,40,.1) 38%,transparent 65%);animation:pulse 2.2s ease-in-out infinite alternate;transition:opacity .8s;pointer-events:none}
+@keyframes pulse{from{opacity:.75;transform:translate(-50%,-50%) scale(.96)}to{opacity:1;transform:translate(-50%,-50%) scale(1.04)}}
+.flame{transform-origin:50% 100%;transform-box:fill-box;animation:flick .45s ease-in-out infinite alternate}
+@keyframes flick{from{transform:scale(1) rotate(-3deg)}to{transform:scale(.88,1.15) rotate(3deg)}}
+.smoke{opacity:0}
+.out .flame{animation:none;opacity:0;transition:opacity .25s}
+.out .glow{animation:none;opacity:0}
+.out .smoke{animation:smoke 1.6s ease-out forwards}
+@keyframes smoke{0%{opacity:.8;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
+.hint{margin:2.2rem 0 0;color:var(--night-ink);font-weight:700;font-size:1.05rem;transition:opacity .4s}
+.out .hint{opacity:0}
+
+/* title */
+h1{margin:0;font-family:"Bagel Fat One","Arial Rounded MT Bold",system-ui,sans-serif;font-weight:400;color:var(--lit-ink);line-height:.98;font-size:clamp(3rem,17vw,9rem);letter-spacing:.01em}
+h1 .w{display:block}
+h1 .w.name{color:var(--lit-accent)}
+h1 .l{display:inline-block;opacity:0}
+body.lit h1 .l{animation:rise .6s cubic-bezier(.3,1.7,.5,1) forwards;animation-delay:calc(var(--i)*55ms + .5s)}
+@keyframes rise{from{transform:translateY(60%) scale(.6);opacity:0}to{transform:none;opacity:1}}
+.again{margin-top:2rem;font:inherit;font-weight:700;color:var(--lit-ink);background:none;border:2px solid currentColor;border-radius:999px;padding:.55rem 1.3rem;cursor:pointer;touch-action:manipulation;opacity:.8}
+.again:focus-visible{outline:3px solid var(--lit-ink);outline-offset:3px}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+@media (prefers-reduced-motion:reduce){.glow,.flame{animation:none}body.lit h1 .l{animation:none;opacity:1}}
+@media (max-height:520px){h1{font-size:clamp(2rem,11vh,5rem)}#candle{width:90px}}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<main>
+  <section class="stage wish" id="wish">
+    <button id="candle" aria-label="Blow out the candle">
+      <span class="glow"></span>
+      <svg viewBox="0 0 120 300" aria-hidden="true">
+        <ellipse cx="60" cy="286" rx="58" ry="10" fill="#2c2050"/>
+        <rect x="36" y="120" width="48" height="166" rx="8" fill="#fff1dc"/>
+        <path d="M36 150 L84 128 M36 190 L84 168 M36 230 L84 208 M36 270 L84 248" stroke="#ff7aa8" stroke-width="9"/>
+        <path d="M36 128 q6 24 12 0 q6 34 14 0 q6 20 12 0 q6 28 10 0 v-8 q-30 -10 -48 0z" fill="#fff8ec"/>
+        <rect x="58.5" y="96" width="3" height="26" rx="1.5" fill="#3a2a2a"/>
+        <path class="flame" d="M60 38 C80 62 78 90 60 98 C42 90 40 62 60 38z" fill="#ff9d2e"/>
+        <path class="flame" d="M60 60 C70 74 69 90 60 96 C51 90 50 74 60 60z" fill="#fff3b0"/>
+        <path class="smoke" d="M60 90 q-14 -16 0 -32 q14 -16 0 -32" fill="none" stroke="#9a8fc0" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <p class="hint">Make a wish, then tap the candle.</p>
+  </section>
+
+  <section class="stage party" id="party">
+    <h1 id="title" aria-label="Happy Birthday"></h1>
+    <button class="again" id="again">Light it again</button>
+  </section>
+</main>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var body=document.body,wish=$('wish'),candle=$('candle');
+
+  /* headline */
+  var i=0;
+  function word(t,cls){var o='<span class="w '+(cls||'')+'" aria-hidden="true">';
+    for(var k=0;k<t.length;k++){o+='<span class="l" style="--i:'+(i++)+'">'+t[k]+'</span>'}return o+'</span>'}
+  /* name comes from the link: .../birthday/rahul  (or ?name=Rahul) */
+  var parts=location.pathname.split('/').filter(Boolean);
+  var raw=parts[1]&&!/\.html?$/.test(parts[1])?parts[1]:(new URLSearchParams(location.search).get('name')||'');
+  try{raw=decodeURIComponent(raw)}catch(e){}
+  var who=raw.replace(/-/g,' ').replace(/[<>&"']/g,'').trim().slice(0,14).replace(/(^|\s)\S/g,function(c){return c.toUpperCase()});
+  if(who){
+    $('title').innerHTML=word('Happy')+word('Birthday')+word(who+'!','name');
+    document.title='Happy Birthday '+who+'!';
+    $('title').setAttribute('aria-label','Happy Birthday '+who);
+  }else{
+    $('title').innerHTML=word('Happy')+word('Birthday!');
+    document.title='Happy Birthday!';
+    $('title').setAttribute('aria-label','Happy Birthday');
+  }
+
+  /* confetti */
+  var C=['#ff5d73','#ffd23f','#2fcfa5','#4f9dff','#b07cff','#ffffff'],
+      cv=$('fx'),ctx=cv.getContext('2d'),bits=[],run=false,dpr=Math.min(devicePixelRatio||1,2),
+      reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){cv.width=innerWidth*dpr;cv.height=innerHeight*dpr}size();addEventListener('resize',size);
+  function rain(n){
+    if(reduce)n=Math.min(n,30);
+    for(var k=0;k<n;k++)bits.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.6,vx:(Math.random()-.5)*2.5*dpr,vy:(1+Math.random()*3)*dpr,
+      s:(6+Math.random()*7)*dpr,r:Math.random()*6,vr:(Math.random()-.5)*.25,c:C[k%C.length],o:Math.random()<.3});
+    if(!run){run=true;requestAnimationFrame(tick)}
+  }
+  function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    bits=bits.filter(function(b){return b.y<cv.height+30});
+    bits.forEach(function(b){
+      b.vy+=.05*dpr;b.x+=b.vx;b.y+=b.vy;b.r+=b.vr;
+      ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.r);ctx.fillStyle=b.c;
+      if(b.o){ctx.beginPath();ctx.arc(0,0,b.s/2,0,7);ctx.fill()}else ctx.fillRect(-b.s/2,-b.s/4,b.s,b.s/2);
+      ctx.restore();
+    });
+    if(bits.length)requestAnimationFrame(tick);else{run=false;ctx.clearRect(0,0,cv.width,cv.height)}
+  }
+
+  /* the moment: blow out, dark beat, lights on */
+  var busy=false;
+  candle.addEventListener('click',function(){
+    if(busy)return;busy=true;
+    wish.classList.add('out');
+    setTimeout(function(){body.classList.add('lit');rain(230);setTimeout(function(){rain(150)},900)},1500);
+  });
+  $('again').addEventListener('click',function(){
+    body.classList.remove('lit');
+    setTimeout(function(){wish.classList.remove('out');busy=false},900);
+  });
+})();
+</script>
+</body>
+</html>
